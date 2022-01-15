@@ -1,0 +1,29 @@
+#!/bin/bash
+
+DATE=$(date +%Y-%m-%d-%H:%M:%S)
+
+BACKUP_DIR="/home/BackupsWebs" #CHANGE FOR YOU PERSONAL DIR
+
+## IMPORTANT ## CHANGE TO THE NAME OF THE WEB DIRECTORY, IT MUST BE THE SAME AS THE NAME OF THE DATABASE ASSOCIATED TO THE WEB SITE.
+WEBS=("web1"
+      "web2") 
+
+for str in ${WEBS[@]};do
+
+      mysqldump --user=MYSQL_USER --password=MYSQL_PASSWORD $str >$BACKUP_DIR/$str.sql
+
+      if [ "$?" -eq 0 ]
+      then
+          echo -e "[$str] Mysqldump successfully finished at $(date +'%d-%m-%Y %H:%M:%S')"$'\r' >> "$BACKUP_DIR/backupLog-$DATE.txt"
+      else
+          echo -e "[$str] Mysqldump failed at $(date +'%d-%m-%Y %H:%M:%S')"$'\r' >> "$BACKUP_DIR/backupLog-$DATE.txt"
+      fi
+done
+
+tar -cvzpf $BACKUP_DIR/backup-$DATE.tar.gz /etc/apache2/ /var/www/html/ $BACKUP_DIR/*.sql $BACKUP_DIR/backupLog-$DATE.txt
+
+for str in ${WEBS[@]};do
+  rm $BACKUP_DIR/$str.sql
+done
+
+rm $BACKUP_DIR/backupLog-$DATE.txt
