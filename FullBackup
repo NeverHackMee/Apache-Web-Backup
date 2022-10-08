@@ -10,7 +10,7 @@ WEBS=("web1"
 
 for web in ${WEBS[@]};do
 
-      mysqldump --user=MYSQL_USER --password=MYSQL_PASSWORD $web >$BACKUP_DIR/$web.sql
+      /usr/bin/mysqldump --user=MYSQL_USER --password=MYSQL_PASSWORD $web >$BACKUP_DIR/$web.sql
 
       if [ "$?" -eq 0 ]
       then
@@ -20,7 +20,7 @@ for web in ${WEBS[@]};do
       fi
 done
 
-tar -cvzpf $BACKUP_DIR/backup-$DATE.tar.gz /etc/apache2/ /var/www/html/ $BACKUP_DIR/*.sql $BACKUP_DIR/backupLog-$DATE.txt
+/usr/bin/tar -cvzpf $BACKUP_DIR/backup-$DATE.tar.gz /etc/apache2/ /var/www/html/ $BACKUP_DIR/*.sql $BACKUP_DIR/backupLog-$DATE.txt
 
 for web in ${WEBS[@]};do
   rm $BACKUP_DIR/$web.sql
