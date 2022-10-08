@@ -8,9 +8,9 @@ BACKUP_DIR="/home/BackupsWebs" #CHANGE FOR YOU PERSONAL DIR
 WEBS=("web1"
       "web2") 
 
-for str in ${WEBS[@]};do
+for web in ${WEBS[@]};do
 
-      mysqldump --user=MYSQL_USER --password=MYSQL_PASSWORD $str >$BACKUP_DIR/$str.sql
+      mysqldump --user=MYSQL_USER --password=MYSQL_PASSWORD $web >$BACKUP_DIR/$web.sql
 
       if [ "$?" -eq 0 ]
       then
@@ -22,8 +22,8 @@ done
 
 tar -cvzpf $BACKUP_DIR/backup-$DATE.tar.gz /etc/apache2/ /var/www/html/ $BACKUP_DIR/*.sql $BACKUP_DIR/backupLog-$DATE.txt
 
-for str in ${WEBS[@]};do
-  rm $BACKUP_DIR/$str.sql
+for web in ${WEBS[@]};do
+  rm $BACKUP_DIR/$web.sql
 done
 
 rm $BACKUP_DIR/backupLog-$DATE.txt
