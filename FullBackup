@@ -23,7 +23,7 @@ done
 /usr/bin/tar -cvzpf $BACKUP_DIR/backup-$DATE.tar.gz /etc/apache2/ /var/www/html/ $BACKUP_DIR/*.sql $BACKUP_DIR/backupLog-$DATE.txt
 
 for web in ${WEBS[@]};do
-  rm $BACKUP_DIR/$web.sql
+  /usr/bin/rm $BACKUP_DIR/$web.sql
 done
 
-rm $BACKUP_DIR/backupLog-$DATE.txt
+/usr/bin/rm $BACKUP_DIR/backupLog-$DATE.txt
